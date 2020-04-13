@@ -1,0 +1,5 @@
+entity.oembed_provider.collection:
+  title: 'oEmbed Providers'
+  parent: system.admin_config_media
+  description: 'Manage custom oEmbed providers'
+  route_name: entity.oembed_provider.collection

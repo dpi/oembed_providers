@@ -1,0 +1,44 @@
+# Schema for the configuration files of the oEmbed Providers module.
+
+oembed_providers.provider.*:
+  type: config_entity
+  label: 'oEmbed provider'
+  mapping:
+    id:
+      type: string
+      label: 'Machine-readable name'
+    label:
+      type: label
+      label: 'Provider name'
+    provider_url:
+      type: string
+      label: 'Provider URL'
+    endpoints:
+      type: sequence
+      label: 'Endpoints'
+      sequence:
+        type: mapping
+        label: 'Endpoint'
+        mapping:
+          schemes:
+            type: sequence
+            label: 'Schemes'
+            sequence:
+              type: string
+              label: 'Scheme'
+          url:
+            type: string
+            label: Endpoint URL
+          discovery:
+            type: boolean
+            label: 'Discovery'
+          formats:
+            type: mapping
+            label: 'Formats'
+            mapping:
+              json:
+                type: boolean
+                label: 'JSON'
+              xml:
+                type: boolean
+                label: 'XML'

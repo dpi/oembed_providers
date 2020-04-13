@@ -1,0 +1,31 @@
+entity.oembed_provider.collection:
+  path: '/admin/config/media/oembed-providers/custom-providers'
+  defaults:
+    _entity_list: 'oembed_provider'
+    _title: 'Custom oEmbed Providers'
+  requirements:
+    _permission: 'administer oembed providers'
+
+entity.oembed_provider.add_form:
+  path: '/admin/config/media/oembed-providers/custom-providers/add'
+  defaults:
+    _entity_form: 'oembed_provider.add'
+    _title: 'Add custom oEmbed provider'
+  requirements:
+    _permission: 'administer oembed providers'
+
+entity.oembed_provider.edit_form:
+  path: '/admin/config/media/oembed-providers/custom-providers/{oembed_provider}'
+  defaults:
+    _entity_form: 'oembed_provider.edit'
+    _title: 'Edit custom oEmbed provider'
+  requirements:
+    _permission: 'administer oembed providers'
+
+entity.oembed_provider.delete_form:
+  path: '/admin/config/media/oembed-providers/custom-providers/{oembed_provider}/delete'
+  defaults:
+    _entity_form: 'oembed_provider.delete'
+    _title: 'Delete'
+  requirements:
+    _permission: 'administer oembed providers'
