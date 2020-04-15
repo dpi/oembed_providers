@@ -111,6 +111,11 @@ final class ProviderRepositoryDecorator implements ProviderRepositoryInterface {
     }
 
     $providers = Json::decode((string) $response->getBody());
+
+    if (!is_array($providers) || empty($providers)) {
+      throw new ProviderException('Remote oEmbed providers database returned invalid or empty list.');
+    }
+
     $custom_providers = $this->getCustomProviders();
 
     // Providers defined by provider database cannot be modified by
@@ -120,10 +125,6 @@ final class ProviderRepositoryDecorator implements ProviderRepositoryInterface {
     usort($providers, function ($a, $b) {
       return strcasecmp($a['provider_name'], $b['provider_name']);
     });
-
-    if (!is_array($providers) || empty($providers)) {
-      throw new ProviderException('Remote oEmbed providers database returned invalid or empty list.');
-    }
 
     $keyed_providers = [];
     foreach ($providers as $provider) {
