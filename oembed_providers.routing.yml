@@ -15,7 +15,7 @@ entity.oembed_provider.add_form:
     _permission: 'administer oembed providers'
 
 entity.oembed_provider.edit_form:
-  path: '/admin/config/media/oembed-providers/custom-providers/{oembed_provider}'
+  path: '/admin/config/media/oembed-providers/custom-providers/{oembed_provider}/edit'
   defaults:
     _entity_form: 'oembed_provider.edit'
     _title: 'Edit custom oEmbed provider'

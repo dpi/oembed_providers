@@ -38,7 +38,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "endpoints",
  *   },
  *   links = {
- *     "edit-form" = "/admin/config/media/oembed-providers/custom-providers/{oembed_provider}",
+ *     "edit-form" = "/admin/config/media/oembed-providers/custom-providers/{oembed_provider}/edit",
  *     "delete-form" = "/admin/config/media/oembed-providers/custom-providers/{oembed_provider}/delete",
  *     "collection" = "/admin/config/media/oembed-providers/custom-providers",
  *   }

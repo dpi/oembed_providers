@@ -125,7 +125,8 @@ class OembedProviderForm extends EntityForm {
         // If original form load (e.g. not AJAX), then array keys are indexed
         // and can be used outright.
         if (is_numeric($endpoint_id)) {
-          $endpoint_indices[] = $endpoint_id;
+          // Start endpoint count at 1, not 0.
+          $endpoint_indices[] = $endpoint_id + 1;
         }
         // If AJAX form load, then array keys are "endpoints-[key]".
         else {
@@ -372,12 +373,12 @@ class OembedProviderForm extends EntityForm {
     $status = $entity->save();
 
     if ($status === SAVED_NEW) {
-      $this->messenger()->addMessage($this->t('The %label oEmbed provider created.', [
+      $this->messenger()->addMessage($this->t('The %label oEmbed provider was created.', [
         '%label' => $entity->label(),
       ]));
     }
     else {
-      $this->messenger()->addMessage($this->t('The %label oEmbed provider updated.', [
+      $this->messenger()->addMessage($this->t('The %label oEmbed provider was updated.', [
         '%label' => $entity->label(),
       ]));
     }
