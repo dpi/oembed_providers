@@ -1,3 +1,11 @@
+oembed_providers.settings:
+  path: '/admin/config/media/oembed-providers'
+  defaults:
+    _form: '\Drupal\oembed_providers\Form\OembedProvidersSettingsForm'
+    _title: 'oEmbed Providers'
+  requirements:
+    _permission: 'administer oembed providers'
+
 entity.oembed_provider.collection:
   path: '/admin/config/media/oembed-providers/custom-providers'
   defaults:
