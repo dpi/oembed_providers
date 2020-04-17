@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\oembed_providers\Tests;
+namespace Drupal\Tests\oembed_providers\Functional;
 
 use Drupal\Tests\BrowserTestBase;
 
@@ -71,7 +71,7 @@ class CustomProvidersUiTest extends BrowserTestBase {
     $assert_session->statusCodeEquals(403, "Non-admin user is unable to access Customer Providers listing page");
     $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/add');
     $assert_session->statusCodeEquals(403, "Non-admin user is unable to access Customer Providers add page");
-    $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/unl_mediahub');
+    $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/unl_mediahub/edit');
     $assert_session->statusCodeEquals(403, "Non-admin user is unable to access Customer Providers edit page");
     $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/unl_mediahub/delete');
     $assert_session->statusCodeEquals(403, "Non-admin user is unable to access Customer Providers delete page");
@@ -81,7 +81,7 @@ class CustomProvidersUiTest extends BrowserTestBase {
     $assert_session->statusCodeEquals(200, "Admin user is able to access Customer Providers listing page");
     $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/add');
     $assert_session->statusCodeEquals(200, "Admin user is able to access Customer Providers add page");
-    $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/unl_mediahub');
+    $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/unl_mediahub/edit');
     $assert_session->statusCodeEquals(200, "Admin user is able to access Customer Providers edit page");
     $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/unl_mediahub/delete');
     $assert_session->statusCodeEquals(200, "Admin user is able to access Customer Providers delete page");

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\oembed_providers\Tests;
+namespace Drupal\Tests\oembed_providers\Functional;
 
 use Drupal\Tests\BrowserTestBase;
 

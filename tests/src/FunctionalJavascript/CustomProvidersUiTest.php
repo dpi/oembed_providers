@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\oembed_providers\Tests;
+namespace Drupal\Tests\oembed_providers\FunctionalJavascript;
 
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\oembed_providers\Entity\OembedProvider;
