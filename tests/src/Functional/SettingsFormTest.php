@@ -85,6 +85,8 @@ class SettingsFormTest extends BrowserTestBase {
     $assert_session = $this->assertSession();
     $page = $this->getSession()->getPage();
 
+    \Drupal::cache()->set('oembed_providers:oembed_providers', 'test value', REQUEST_TIME + (86400));
+
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('/admin/config/media/oembed-providers');
 
@@ -98,6 +100,9 @@ class SettingsFormTest extends BrowserTestBase {
 
     $assert_session->pageTextContains('The configuration options have been saved.');
     $this->assertSame('https://example.com/providers.json', $this->config('media.settings')->get('oembed_providers_url'));
+
+    // Verify cached providers are cleared.
+    $this->AssertFalse(\Drupal::cache()->get('oembed_providers:oembed_providers'));
   }
 
 }

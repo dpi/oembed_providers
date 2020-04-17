@@ -2,8 +2,11 @@
 
 namespace Drupal\oembed_providers\Form;
 
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure oEmbed settings form.
@@ -16,6 +19,37 @@ class OembedProvidersSettingsForm extends ConfigFormBase {
    * @var string
    */
   const SETTINGS = 'oembed_providers.settings';
+
+  /**
+   * Cache backend for default cache.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $defaultCache;
+
+  /**
+   * Constructs an OembedProvidersSettingsForm object.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The factory for configuration objects.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $default_cache
+   *   Cache backend for default cache.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, CacheBackendInterface $default_cache) {
+    $this->setConfigFactory($config_factory);
+    $this->defaultCache = $default_cache;
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('cache.default')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -58,6 +92,7 @@ class OembedProvidersSettingsForm extends ConfigFormBase {
       ->save();
 
     parent::submitForm($form, $form_state);
+    $this->defaultCache->delete('oembed_providers:oembed_providers');
   }
 
 }

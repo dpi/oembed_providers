@@ -168,6 +168,9 @@ class CustomProvidersUiTest extends WebDriverTestBase {
     ];
     $this->AssertSame($entity->get('endpoints'), $endpoints);
 
+    // Verify cached providers are cleared.
+    $this->AssertFalse(\Drupal::cache()->get('oembed_providers:oembed_providers'));
+
     // Load edit page.
     $this->drupalGet('/admin/config/media/oembed-providers/custom-providers/test_provider/edit');
     // Verify re-indexing of endpoints.

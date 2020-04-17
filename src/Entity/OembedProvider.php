@@ -3,6 +3,7 @@
 namespace Drupal\oembed_providers\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\Entity\EntityStorageInterface;
 
 /**
  * Defines the oEmbed provider entity.
@@ -73,5 +74,16 @@ class OembedProvider extends ConfigEntityBase {
    * @var array
    */
   protected $endpoints;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
+    parent::postSave($storage, $update);
+
+    // Dependency injection is impossible because
+    // \Drupal\Core\Entity\EntityBase defines an incompatible create() method.
+    \Drupal::cache()->delete('oembed_providers:oembed_providers');
+  }
 
 }
