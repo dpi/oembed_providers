@@ -4,3 +4,21 @@
  * @file
  * This module allows site builders and developers to manage oEmbed providers.
  */
+
+/**
+ * Implements hook_media_source_info_alter().
+ */
+function oembed_providers_media_source_info_alter(array &$sources) {
+  $config_allowed_providers = \Drupal::config('oembed_providers.settings')->get('allowed_providers');
+  $config_allowed_providers = ($config_allowed_providers) ? $config_allowed_providers : [];
+
+  $provider_repository = \Drupal::service('media.oembed.provider_repository');
+  $available_providers = [];
+  foreach ($provider_repository->getAll() as $provider) {
+    $available_providers[] = $provider->getName();
+  }
+
+  // Return sources that are 1) allowed per config and 2) exist as
+  // an available provider.
+  $sources['oembed:video']['providers'] = array_intersect($available_providers, $config_allowed_providers);
+}

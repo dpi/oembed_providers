@@ -1,0 +1,5 @@
+settings_form:
+  version: VERSION
+  css:
+    component:
+      css/settings-form.css: {}

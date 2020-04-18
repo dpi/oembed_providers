@@ -4,6 +4,12 @@ oembed_providers.settings:
   description: 'Configure oEmbed Providers'
   route_name: oembed_providers.settings
 
+oembed_providers.settings.allowed_providers:
+  title: 'Allowed Providers'
+  parent: oembed_providers.settings
+  description: 'Configure Allowed oEmbed Providers'
+  route_name: oembed_providers.settings.allowed_providers
+
 entity.oembed_provider.collection:
   title: 'Custom oEmbed Providers'
   parent: oembed_providers.settings

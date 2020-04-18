@@ -1,5 +1,16 @@
 # Schema for the configuration files of the oEmbed Providers module.
 
+oembed_providers.settings:
+  type: config_object
+  label: 'oEmbed Providers settings'
+  mapping:
+    allowed_providers:
+      type: sequence
+      label: 'Allowed Providers'
+      sequence:
+        type: string
+        label: 'Provider'
+
 oembed_providers.provider.*:
   type: config_entity
   label: 'oEmbed provider'

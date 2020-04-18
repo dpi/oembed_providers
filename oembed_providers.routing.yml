@@ -6,6 +6,14 @@ oembed_providers.settings:
   requirements:
     _permission: 'administer oembed providers'
 
+oembed_providers.settings.allowed_providers:
+  path: '/admin/config/media/oembed-providers/allowed-providers'
+  defaults:
+    _form: '\Drupal\oembed_providers\Form\AllowedProvidersForm'
+    _title: 'Allowed Providers'
+  requirements:
+    _permission: 'administer oembed providers'
+
 entity.oembed_provider.collection:
   path: '/admin/config/media/oembed-providers/custom-providers'
   defaults:

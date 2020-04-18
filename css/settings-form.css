@@ -1,0 +1,29 @@
+#oembed-allowed-providers-settings #edit-allowed-providers {
+  -webkit-column-count: 4;
+  -moz-column-count: 4;
+  column-count: 4;
+}
+
+@media screen and (max-width: 60em) {
+  #oembed-allowed-providers-settings #edit-allowed-providers {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+}
+
+@media screen and (max-width: 48em) {
+  #oembed-allowed-providers-settings #edit-allowed-providers {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+  }
+}
+
+@media screen and (max-width: 32em) {
+  #oembed-allowed-providers-settings #edit-allowed-providers {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+  }
+}

@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * This module provides install, uninstall, and update functions.
+ */
+
+use Drupal\Core\Installer\InstallerKernel;
+
+/**
+ * Implements hook_install().
+ */
+function oembed_providers_install() {
+  if (!InstallerKernel::installationAttempted()) {
+    \Drupal::messenger()->addWarning(t('The <em>oEmbed Providers</em> module now manages oEmbed providers. Allowed oEmbed providers must be designated. <a href="@url">Configure <em>Allowed Providers</em> settings</a>', ['@url' => '/admin/config/media/oembed-providers/allowed-providers']));
+  }
+}

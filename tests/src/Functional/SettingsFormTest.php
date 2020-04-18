@@ -3,6 +3,7 @@
 namespace Drupal\Tests\oembed_providers\Functional;
 
 use Drupal\Tests\BrowserTestBase;
+use Drupal\Tests\media\Traits\OEmbedTestTrait;
 
 /**
  * Class SettingsFormTest.
@@ -10,6 +11,8 @@ use Drupal\Tests\BrowserTestBase;
  * @group oembed_providers
  */
 class SettingsFormTest extends BrowserTestBase {
+
+  use OEmbedTestTrait;
 
   /**
    * {@inheritdoc}
@@ -85,6 +88,7 @@ class SettingsFormTest extends BrowserTestBase {
     $assert_session = $this->assertSession();
     $page = $this->getSession()->getPage();
 
+    // Set dummy value in cache, so it can be deleted on form submission.
     \Drupal::cache()->set('oembed_providers:oembed_providers', 'test value', REQUEST_TIME + (86400));
 
     $this->drupalLogin($this->adminUser);
@@ -103,6 +107,45 @@ class SettingsFormTest extends BrowserTestBase {
 
     // Verify cached providers are cleared.
     $this->AssertFalse(\Drupal::cache()->get('oembed_providers:oembed_providers'));
+  }
+
+  /**
+   * Tests allowed providers form.
+   */
+  public function testAllowedProviders() {
+    $this->useFixtureProviders();
+    $this->lockHttpClientToFixtures();
+
+    $assert_session = $this->assertSession();
+    $page = $this->getSession()->getPage();
+
+    // Set dummy value in cache, so it can be deleted on form submission.
+    \Drupal::service('cache.discovery')->set('media_source_plugins', 'test value', REQUEST_TIME + (86400));
+
+    $this->drupalLogin($this->adminUser);
+    $this->drupalGet('/admin/config/media/oembed-providers/allowed-providers');
+
+    $assert_session->checkboxNotChecked('Vimeo');
+    $assert_session->checkboxNotChecked('YouTube');
+
+    $page->findField('allowed_providers[Vimeo]')->check();
+    $page->pressButton('Save configuration');
+
+    $assert_session->pageTextContains('The configuration options have been saved.');
+
+    $config_allowed_providers = \Drupal::config('oembed_providers.settings')->get('allowed_providers');
+    $expected_allowed_providers = ['Vimeo'];
+    $this->assertSame($config_allowed_providers, $expected_allowed_providers);
+
+    // Verify cached providers are cleared.
+    $this->AssertFalse(\Drupal::service('cache.discovery')->get('media_source_plugins'));
+
+    // Verify media sources have been modified.
+    $media_sources = \Drupal::service('plugin.manager.media.source')->getDefinitions();
+    $providers = $media_sources['oembed:video']['providers'];
+
+    $this->AssertTrue(in_array('Vimeo', $providers));
+    $this->AssertFalse(in_array('YouTube', $providers));
   }
 
 }
