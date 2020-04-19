@@ -10,6 +10,9 @@ oembed_providers.settings:
       sequence:
         type: string
         label: 'Provider'
+    external_fetch:
+      type: boolean
+      label: 'External Fetch'
 
 oembed_providers.provider.*:
   type: config_entity

@@ -94,6 +94,7 @@ class SettingsFormTest extends BrowserTestBase {
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('/admin/config/media/oembed-providers');
 
+    $assert_session->checkboxChecked('Enable external fetch of providers');
     $this->assertSame('https://oembed.com/providers.json', $page->findField('oembed_providers_url')->getValue());
 
     $page
@@ -107,6 +108,22 @@ class SettingsFormTest extends BrowserTestBase {
 
     // Verify cached providers are cleared.
     $this->AssertFalse(\Drupal::cache()->get('oembed_providers:oembed_providers'));
+
+    $this->drupalGet('/admin/config/media/oembed-providers');
+
+    $assert_session->checkboxChecked('Enable external fetch of providers');
+    $this->assertSame('https://example.com/providers.json', $page->findField('oembed_providers_url')->getValue());
+
+    $page->findField('external_fetch')->uncheck();
+
+    $page->pressButton('Save configuration');
+
+    $assert_session->pageTextContains('The configuration options have been saved.');
+    $this->assertSame(FALSE, $this->config('oembed_providers.settings')->get('external_fetch'));
+
+    $this->drupalGet('/admin/config/media/oembed-providers');
+
+    $assert_session->checkboxNotChecked('Enable external fetch of providers');
   }
 
   /**

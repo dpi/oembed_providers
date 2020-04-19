@@ -73,6 +73,13 @@ class OembedProvidersSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config(static::SETTINGS);
 
+    $form['external_fetch'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable external fetch of providers'),
+      '#description' => $this->t('If enabled, oEmbed providers will be fetched from the <em>oEmbed Providers URL</em>. If disabled, any oEmbed providers must be defined locally.'),
+      '#default_value' => $config->get('external_fetch'),
+    ];
+
     $form['oembed_providers_url'] = [
       '#type' => 'url',
       '#title' => $this->t('oEmbed Providers URL'),
@@ -89,6 +96,10 @@ class OembedProvidersSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->configFactory->getEditable('media.settings')
       ->set('oembed_providers_url', $form_state->getValue('oembed_providers_url'))
+      ->save();
+
+    $this->configFactory->getEditable(static::SETTINGS)
+      ->set('external_fetch', (bool) $form_state->getValue('external_fetch'))
       ->save();
 
     parent::submitForm($form, $form_state);

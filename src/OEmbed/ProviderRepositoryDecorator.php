@@ -58,6 +58,13 @@ final class ProviderRepositoryDecorator implements ProviderRepositoryInterface {
   protected $providersUrl;
 
   /**
+   * Whether or not the external providers list should be fetched.
+   *
+   * @var bool
+   */
+  protected $externalFetch;
+
+  /**
    * The time service.
    *
    * @var \Drupal\Component\Datetime\TimeInterface
@@ -87,6 +94,7 @@ final class ProviderRepositoryDecorator implements ProviderRepositoryInterface {
     $this->entityTypeManager = $entity_type_manager;
     $this->httpClient = $http_client;
     $this->providersUrl = $config_factory->get('media.settings')->get('oembed_providers_url');
+    $this->externalFetch = $config_factory->get('oembed_providers.settings')->get('external_fetch');
     $this->time = $time;
     $this->cacheBackend = $cache_backend;
     $this->maxAge = (int) $max_age;
@@ -103,24 +111,29 @@ final class ProviderRepositoryDecorator implements ProviderRepositoryInterface {
       return $cached->data;
     }
 
-    try {
-      $response = $this->httpClient->request('GET', $this->providersUrl);
-    }
-    catch (RequestException $e) {
-      throw new ProviderException("Could not retrieve the oEmbed provider database from $this->providersUrl", NULL, $e);
-    }
-
-    $providers = Json::decode((string) $response->getBody());
-
-    if (!is_array($providers) || empty($providers)) {
-      throw new ProviderException('Remote oEmbed providers database returned invalid or empty list.');
-    }
-
     $custom_providers = $this->getCustomProviders();
 
-    // Providers defined by provider database cannot be modified by
-    // custom oEmbed provider definitions.
-    $providers = array_merge($custom_providers, $providers);
+    if ($this->externalFetch) {
+      try {
+        $response = $this->httpClient->request('GET', $this->providersUrl);
+      }
+      catch (RequestException $e) {
+        throw new ProviderException("Could not retrieve the oEmbed provider database from $this->providersUrl", NULL, $e);
+      }
+
+      $providers = Json::decode((string) $response->getBody());
+
+      if (!is_array($providers) || empty($providers)) {
+        throw new ProviderException('Remote oEmbed providers database returned invalid or empty list.');
+      }
+
+      // Providers defined by provider database cannot be modified by
+      // custom oEmbed provider definitions.
+      $providers = array_merge($custom_providers, $providers);
+    }
+    else {
+      $providers = $custom_providers;
+    }
 
     usort($providers, function ($a, $b) {
       return strcasecmp($a['provider_name'], $b['provider_name']);
