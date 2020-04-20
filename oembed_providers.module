@@ -5,6 +5,9 @@
  * This module allows site builders and developers to manage oEmbed providers.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\oembed_providers\Traits\HelperTrait;
+
 /**
  * Implements hook_media_source_info_alter().
  */
@@ -21,4 +24,17 @@ function oembed_providers_media_source_info_alter(array &$sources) {
   // Return sources that are 1) allowed per config and 2) exist as
   // an available provider.
   $sources['oembed:video']['providers'] = array_intersect($available_providers, $config_allowed_providers);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function oembed_providers_form_media_type_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $warning = [
+    '#markup' => HelperTrait::disabledProviderSecurityWarning(),
+    // Simulate warning message.
+    '#prefix' => '<div role="contentinfo" aria-label="Warning message" class="messages messages--warning">',
+    '#suffix' => '</div>',
+  ];
+  array_unshift($form['source_dependent']['source_configuration'], $warning);
 }

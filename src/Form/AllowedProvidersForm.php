@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\oembed_providers\OEmbed\ProviderRepositoryDecorator;
+use Drupal\oembed_providers\Traits\HelperTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -84,6 +85,13 @@ class AllowedProvidersForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config(static::SETTINGS);
 
+    $form['security_warning'] = [
+      '#markup' => HelperTrait::disabledProviderSecurityWarning(),
+      // Simulate warning message.
+      '#prefix' => '<div role="contentinfo" aria-label="Warning message" class="messages messages--warning">',
+      '#suffix' => '</div>',
+    ];
+
     if (empty($config->get('allowed_providers'))) {
       $form['install_markup'] = [
         '#markup' => $this->t('The <em>oEmbed Providers</em> module now manages oEmbed providers. Allowed oEmbed providers must be configured below.'),
@@ -93,7 +101,6 @@ class AllowedProvidersForm extends ConfigFormBase {
       ];
     }
 
-    // Add security warning about disabled providers?
     $form['markup'] = [
       '#markup' => $this->t('<p>Providers enabled below will be made available as media sources.</p>'),
     ];
