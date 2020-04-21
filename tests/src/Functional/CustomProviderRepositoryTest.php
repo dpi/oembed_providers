@@ -66,6 +66,11 @@ class CustomProviderRepositoryTest extends MediaFunctionalTestBase {
     $this->assertTrue(in_array('UNL MediaHub', $provider_names), "UNL MediaHub is found as a provider");
     $this->assertTrue(in_array('Example Provider', $provider_names), "Example Provider is found as a provider");
     $this->assertTrue(in_array('Vimeo', $provider_names), "Vimeo is found as a provider");
+
+    // Verify custom providers are retrieved by get() method.
+    $this->assertNotEmpty($provider_repository->get('UNL MediaHub'), "UNL MediaHub is found as a provider");
+    $this->assertNotEmpty($provider_repository->get('Example Provider'), "Example Provider is found as a provider");
+    $this->assertNotEmpty($provider_repository->get('Vimeo'), "Vimeo is found as a provider");
   }
 
 }

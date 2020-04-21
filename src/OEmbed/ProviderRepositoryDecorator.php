@@ -159,7 +159,12 @@ final class ProviderRepositoryDecorator implements ProviderRepositoryInterface {
    * {@inheritdoc}
    */
   public function get($provider_name) {
-    return $this->decorated->get($provider_name);
+    $providers = $this->getAll();
+
+    if (!isset($providers[$provider_name])) {
+      throw new \InvalidArgumentException("Unknown provider '$provider_name'");
+    }
+    return $providers[$provider_name];
   }
 
   /**
