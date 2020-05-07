@@ -139,7 +139,6 @@ class AllowedProvidersForm extends ConfigFormBase {
       ->save();
 
     parent::submitForm($form, $form_state);
-    $this->discoveryCache->delete('media_source_plugins');
   }
 
 }

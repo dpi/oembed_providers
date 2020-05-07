@@ -4,3 +4,9 @@ services:
     class: Drupal\oembed_providers\OEmbed\ProviderRepositoryDecorator
     public: false
     arguments: ['@oembed_providers.oembed.provider_repository.inner', '@entity_type.manager', '@http_client', '@config.factory', '@datetime.time', '@cache.default']
+
+  oembed_providers.invalidator:
+    class: Drupal\oembed_providers\OembedProvidersCacheTagInvalidator
+    arguments: ['@plugin.manager.media.source']
+    tags:
+      - { name: cache_tags_invalidator }
