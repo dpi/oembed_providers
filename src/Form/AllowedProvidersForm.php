@@ -23,13 +23,6 @@ class AllowedProvidersForm extends ConfigFormBase {
   const SETTINGS = 'oembed_providers.settings';
 
   /**
-   * Cache backend for discovery cache.
-   *
-   * @var \Drupal\Core\Cache\CacheBackendInterface
-   */
-  protected $discoveryCache;
-
-  /**
    * The decorated oEmbed ProviderRepository.
    *
    * @var \Drupal\oembed_providers\OEmbed\ProviderRepositoryDecorator
@@ -41,14 +34,11 @@ class AllowedProvidersForm extends ConfigFormBase {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
-   * @param \Drupal\Core\Cache\CacheBackendInterface $discovery_cache
-   *   Cache backend for discovery cache.
    * @param \Drupal\oembed_providers\OEmbed\ProviderRepositoryDecorator $provider_repository
    *   The decorated oEmbed ProviderRepository.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, CacheBackendInterface $discovery_cache, ProviderRepositoryDecorator $provider_repository) {
+  public function __construct(ConfigFactoryInterface $config_factory, ProviderRepositoryDecorator $provider_repository) {
     $this->setConfigFactory($config_factory);
-    $this->discoveryCache = $discovery_cache;
     $this->providerRepository = $provider_repository;
   }
 
@@ -58,7 +48,6 @@ class AllowedProvidersForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('cache.discovery'),
       $container->get('media.oembed.provider_repository')
     );
   }
